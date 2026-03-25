@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>专业数值模拟辅导 - Fluent & Abaqus</title>
+    <style>
+        /* 核心配色：学术蓝与纯净白 */
+        :root {
+            --primary-blue: #004080; 
+            --light-blue: #f0f7ff;   
+            --accent-blue: #0073e6;  
+            --text-main: #333333;
+            --text-muted: #666666;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { 
+            font-family: 'PingFang SC', 'Microsoft YaHei', sans-serif; 
+            line-height: 1.6; 
+            color: var(--text-main); 
+            background-color: #ffffff; 
+            scroll-behavior: smooth;
+        }
+        a { text-decoration: none; color: inherit; }
+
+        /* 导航栏 */
+        header { 
+            background: #ffffff; 
+            padding: 1.2rem 5%; 
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center; 
+            box-shadow: 0 2px 10px rgba(0, 64, 128, 0.08); 
+            position: sticky; 
+            top: 0; 
+            z-index: 100;
+        }
+        .logo { font-size: 1.4rem; font-weight: bold; color: var(--primary-blue); letter-spacing: 1px;}
+        .nav-links { list-style: none; display: flex; gap: 2rem; }
+        .nav-links a { font-weight: 500; transition: color 0.3s; }
+        .nav-links a:hover { color: var(--accent-blue); }
+
+        /* 顶部宣传区 (Hero Section) */
+        .hero { 
+            text-align: center; 
+            padding: 5rem 5%; 
+            background: linear-gradient(135deg, var(--primary-blue) 0%, var(--accent-blue) 100%); 
+            color: #ffffff;
+        }
+        .hero h1 { font-size: 2.6rem; margin-bottom: 1.2rem; letter-spacing: 2px; }
+        .hero p { font-size: 1.1rem; max-width: 700px; margin: 0 auto 2.5rem auto; opacity: 0.9; }
+        .cta-btn {
+            background: #ffffff;
+            color: var(--primary-blue);
+            padding: 12px 30px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            border-radius: 4px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            transition: all 0.3s;
+            display: inline-block;
+        }
+        .cta-btn:hover { background: var(--light-blue); transform: translateY(-2px); }
+
+        /* 核心服务项目 */
+        .services { padding: 4rem 5%; max-width: 1200px; margin: 0 auto; }
+        .section-title { text-align: center; margin-bottom: 1rem; font-size: 2rem; color: var(--primary-blue); }
+        .section-subtitle { text-align: center; color: var(--text-muted); margin-bottom: 3rem; font-size: 1.1rem; }
+        
+        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 2rem; }
+        .service-card { 
+            background: #ffffff; 
+            border: 1px solid #e1ebf5;
+            border-radius: 8px; 
+            padding: 2.5rem 2rem;
+            text-align: center;
+            box-shadow: 0 4px 20px rgba(0, 64, 128, 0.04); 
+            transition: transform 0.3s, box-shadow 0.3s; 
+        }
+        .service-card:hover { transform: translateY(-5px); box-shadow: 0 8px 30px rgba(0, 64, 128, 0.1); border-color: var(--accent-blue); }
+        .card-icon { font-size: 3rem; margin-bottom: 1rem; color: var(--accent-blue); }
+        .service-card h3 { font-size: 1.4rem; margin-bottom: 1rem; color: var(--primary-blue); }
+        .service-card ul { text-align: left; list-style-type: none; margin-top: 1rem; color: var(--text-muted); font-size: 0.95rem;}
+        .service-card ul li { margin-bottom: 0.5rem; }
+        .service-card ul li::before { content: "✓ "; color: var(--accent-blue); font-weight: bold; }
+
+        /* 团队介绍区 (新增) */
+        .team { background: var(--light-blue); padding: 4rem 5%; }
+        .team-container { max-width: 1200px; margin: 0 auto; }
+        .team-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 1.5rem; margin-top: 2rem; }
+        
+        .team-card {
+            background: #ffffff;
+            border-radius: 8px;
+            padding: 2rem 1.5rem;
+            text-align: center;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.03);
+            border-top: 4px solid var(--accent-blue);
+            transition: transform 0.3s;
+        }
+        .team-card:hover { transform: translateY(-5px); box-shadow: 0 8px 25px rgba(0, 64, 128, 0.08); }
+        
+        /* 姓名首字母作为头像图标 */
+        .team-avatar {
+            width: 60px;
+            height: 60px;
+            background: var(--primary-blue);
+            color: #ffffff;
+            border-radius: 50%;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            font-weight: bold;
+            margin-bottom: 1rem;
+        }
+        .team-name { font-size: 1.3rem; color: var(--primary-blue); margin-bottom: 0.3rem; }
+        .team-title { font-size: 1rem; font-weight: bold; color: var(--text-main); margin-bottom: 0.5rem; }
+        .team-major { font-size: 0.85rem; color: var(--text-muted); line-height: 1.5; }
+        .team-exp { 
+            display: inline-block; 
+            margin-top: 1rem; 
+            padding: 3px 10px; 
+            background: #e6f0fa; 
+            color: var(--accent-blue); 
+            font-size: 0.8rem; 
+            border-radius: 20px; 
+            font-weight: bold;
+        }
+
+        /* 优势说明区 */
+        .features { padding: 4rem 5%; background: #ffffff; }
+        .features-container { max-width: 1200px; margin: 0 auto; display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 2rem; text-align: center; }
+        .feature-item h4 { font-size: 1.2rem; color: var(--primary-blue); margin-bottom: 0.5rem; }
+        .feature-item p { color: var(--text-muted); font-size: 0.95rem; }
+
+        /* 底部 */
+        footer { background: var(--primary-blue); color: #ffffff; text-align: center; padding: 3rem 2rem; margin-top: 0; }
+        .footer-contact { font-size: 1.2rem; margin-bottom: 1rem; font-weight: bold; }
+        .footer-desc { font-size: 0.9rem; opacity: 0.8; margin-bottom: 0.5rem; }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="logo">极客仿真工作室</div>
+        <ul class="nav-links">
+            <li><a href="#services">服务项目</a></li>
+            <li><a href="#team">核心团队</a></li>
+            <li><a href="#features">选择我们</a></li>
+            <li><a href="#contact">联系咨询</a></li>
+        </ul>
+    </header>
+
+    <section class="hero">
+        <h1>专业 Fluent / Abaqus 数值模拟辅导</h1>
+        <p>专为各年级大学生量身定制。无论是课程大作业、学科竞赛，还是本科/硕士毕业论文，我们提供从模型建立、网格划分到结果分析的全流程一对一指导，助你顺利通关。</p>
+        <a href="#contact" class="cta-btn">免费评估需求与报价</a>
+    </section>
+
+    <section class="services" id="services">
+        <h2 class="section-title">我们提供的服务</h2>
+        <div class="grid">
+            <div class="service-card">
+                <div class="card-icon">🌊</div>
+                <h3>ANSYS Fluent 流体仿真</h3>
+                <p style="color: #666; margin-bottom: 1rem; font-size: 0.95rem;">解决各类流体力学与传热学难题</p>
+                <ul>
+                    <li>内部流动与外部空气动力学</li>
+                    <li>多相流、传热与相变模拟</li>
+                    <li>UDF (用户自定义函数) 编写与调试</li>
+                    <li>动网格与滑移网格技术</li>
+                    <li>流场数据后处理与图表导出</li>
+                </ul>
+            </div>
+            <div class="service-card">
+                <div class="card-icon">🏗️</div>
+                <h3>Abaqus 固体与结构分析</h3>
+                <p style="color: #666; margin-bottom: 1rem; font-size: 0.95rem;">应对复杂的非线性力学与结构挑战</p>
+                <ul>
+                    <li>静力学、动力学与碰撞分析</li>
+                    <li>材料非线性（塑性、超弹性等）</li>
+                    <li>接触问题与断裂力学模拟</li>
+                    <li>热力耦合与多物理场分析</li>
+                    <li>inp文件修改与 Python 脚本二次开发</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <section class="team" id="team">
+        <div class="team-container">
+            <h2 class="section-title">核心硕博团队</h2>
+            <p class="section-subtitle">全员均精通仿真模拟，具备 3 年以上一线科研与项目实战经验，为你提供最专业的学术指导。</p>
+            
+            <div class="team-grid">
+                <div class="team-card">
+                    <div class="team-avatar">刘</div>
+                    <div class="team-name">刘博士</div>
+                    <div class="team-title">天津大学</div>
+                    <div class="team-major">土木工程专业 在读博士</div>
+                    <div class="team-exp">3年以上仿真经验</div>
+                </div>
+
+                <div class="team-card">
+                    <div class="team-avatar">王</div>
+                    <div class="team-name">王博士</div>
+                    <div class="team-title">西南交通大学</div>
+                    <div class="team-major">动力工程及工程热物理 在读博士</div>
+                    <div class="team-exp">3年以上仿真经验</div>
+                </div>
+
+                <div class="team-card">
+                    <div class="team-avatar">高</div>
+                    <div class="team-name">高博士</div>
+                    <div class="team-title">中国石油大学(北京)</div>
+                    <div class="team-major">石油与天然气工程 在读博士</div>
+                    <div class="team-exp">3年以上仿真经验</div>
+                </div>
+
+                <div class="team-card">
+                    <div class="team-avatar">陈</div>
+                    <div class="team-name">陈博士</div>
+                    <div class="team-title">西南交通大学</div>
+                    <div class="team-major">动力工程及工程热物理 在读博士</div>
+                    <div class="team-exp">3年以上仿真经验</div>
+                </div>
+
+                <div class="team-card">
+                    <div class="team-avatar">洪</div>
+                    <div class="team-name">洪硕士</div>
+                    <div class="team-title">西南交通大学</div>
+                    <div class="team-major">能源与动力工程专业 硕士</div>
+                    <div class="team-exp">3年以上仿真经验</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="features" id="features">
+        <h2 class="section-title">为什么选择我们？</h2>
+        <div class="features-container">
+            <div class="feature-item">
+                <h4>🎓 懂学术，更懂你</h4>
+                <p>熟悉国内高校论文格式与要求，直接针对导师关心的核心痛点进行建模优化。</p>
+            </div>
+            <div class="feature-item">
+                <h4>⏱️ 严格保密，按时交付</h4>
+                <p>绝不拖稿。承诺在约定时间内交付完整的源文件（cas/dat/inp/odb等）。</p>
+            </div>
+            <div class="feature-item">
+                <h4>💡 授人以渔，包教包会</h4>
+                <p>不仅提供最终结果，更可提供录屏讲解与一对一答疑，确保你答辩无忧。</p>
+            </div>
+        </div>
+    </section>
+
+    <footer id="contact">
+        <p class="footer-contact">添加微信获取免费评估：[在此填写微信号]</p>
+        <p class="footer-desc">请备注：学校-专业-Fluent/Abaqus辅导</p>
+        <p class="footer-desc" style="margin-top: 1.5rem; font-size: 0.8rem; opacity: 0.5;">© 2026 极客仿真工作室. 保留所有权利.</p>
+    </footer>
+
+</body>
+</html>
